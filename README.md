@@ -4,8 +4,8 @@ Implementacion de un sistema de gestion de inventario (Materia prima/Producto de
 ## Integrantes:
 
 -
+- Ana Cristina Martinez Salas - MS24088 
 -
 -
--
--
+- 
 
