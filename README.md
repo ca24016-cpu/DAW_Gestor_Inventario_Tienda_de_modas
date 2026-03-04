@@ -4,7 +4,7 @@ Implementacion de un sistema de gestion de inventario (Materia prima/Producto de
 ## Integrantes:
 
 -
--
+- Andrea Isabel Chávez Mejía CM24080
 -
 -
 -
