@@ -7,5 +7,7 @@ Implementacion de un sistema de gestion de inventario (Materia prima/Producto de
 -
 -
 -
--
+- Joel Isaac Chavez Arevalo CA24016
+
+
 
