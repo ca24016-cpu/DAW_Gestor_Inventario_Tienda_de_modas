@@ -8,4 +8,12 @@ Implementacion de un sistema de gestion de inventario (Materia prima/Producto de
 -
 -
 - 
+Jose Israel Lemus Salguero LS24009
+-
+-
+-
+Rolando Estuardo Salguero Borja SB21023
+- Joel Isaac Chavez Arevalo CA24016
+
+
 
