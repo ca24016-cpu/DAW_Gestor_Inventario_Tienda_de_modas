@@ -2,6 +2,12 @@
 Implementacion de un sistema de gestion de inventario (Materia prima/Producto de venta) orientado hacia empresas o emprendimientos en el rubro de la moda 
 
 ## Integrantes:
+
+-
+- Ana Cristina Martinez Salas - MS24088 
+-
+-
+- 
 Jose Israel Lemus Salguero LS24009
 -
 -
