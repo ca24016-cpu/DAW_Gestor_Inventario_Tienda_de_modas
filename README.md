@@ -31,7 +31,7 @@ Opcional:
 - **`README.md`** → Documentación principal del proyecto.
 
 ## Modelo ERD - DB:
-![ERD FashionTrack](./media/Fashiontrack_DB_ERD.png)
+![ERD FashionTrack](./media/Fashiontrack_DB ERD.png)
 
 
 ## Tecnologías Utilizadas
