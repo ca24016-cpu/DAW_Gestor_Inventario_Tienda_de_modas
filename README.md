@@ -20,7 +20,7 @@ Antes de ejecutar el proyecto, asegúrate de tener instalado:
 - Navegador web para acceder a la API y documentación  
 
 Opcional:
-- IDE recomendado: IntelliJ IDEA o Eclipse  
+- IDE recomendado: Visual Studio Code, IntelliJ IDEA o Eclipse  
 
 
 ## Estructura del Repositorio
@@ -28,7 +28,10 @@ Opcional:
 - **`database/`** → Scripts SQL, schema de PostgreSQL y datos de prueba.  
 - **`frontend/`** → Carpeta para la interfaz gráfica y recursos web.  
 - **`media/`** → Diagramas y documentación (incluye el modelo ERD).  
-- **`README.md`** → Documentación principal del proyecto.  
+- **`README.md`** → Documentación principal del proyecto.
+
+## Modelo ERD - DB:
+![ERD FashionTrack](./media/Fashiontrack_DB_ERD.png)
 
 
 ## Tecnologías Utilizadas
