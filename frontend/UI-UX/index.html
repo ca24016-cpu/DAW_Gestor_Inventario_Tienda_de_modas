@@ -1,0 +1,228 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Gestor_Inventario_Tienda_de_modas - Sistema Completo</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+  <!-- TRUCO DE CSS PURO: Inputs ocultos para controlar el cambio de pestañas dinámicamente -->
+  <input type="radio" name="tabs" id="tab-dashboard" checked>
+  <input type="radio" name="tabs" id="tab-inventario">
+  <input type="radio" name="tabs" id="tab-proveedores">
+  <input type="radio" name="tabs" id="tab-categorias">
+  <input type="radio" name="tabs" id="tab-reportes">
+  <input type="radio" name="tabs" id="tab-formulario">
+
+  <div class="layout-base">
+    
+    <!-- VISTA 2: NAVBAR SUPERIOR MÓVIL -->
+    <header class="navbar-superior">
+      <button class="boton-menu-movil" id="hamburguesaBtn">☰</button>
+      <h1 class="logo-aplicacion">FashionTrack</h1>
+      <div class="user-tag">👤usuario</div>
+    </header>
+
+    <div class="contenedor-intermedio">
+      
+      <!-- VISTA 2: NAVEGACIÓN -->
+      <aside class="menu-lateral" id="sidebarMenu">
+        <div class="sidebar-brand">Menú Principal</div>
+        <nav class="navegacion-principal">
+          <ul>
+            <li><label for="tab-dashboard" class="item-menu label-dashboard"> Dashboard (Inicio)</label></li>
+            <li><label for="tab-inventario" class="item-menu label-inventario"> Inventario (Gestión)</label></li>
+            <li><label for="tab-proveedores" class="item-menu label-proveedores"> Proveedores (Directorio)</label></li>
+            <li><label for="tab-categorias" class="item-menu label-categorias"> Categorías (Organización)</label></li>
+            <li><label for="tab-reportes" class="item-menu label-reportes"> Reportes (E/S)</label></li>
+          </ul>
+        </nav>
+      </aside>
+
+      <main class="seccion-principal">
+        
+        <!-- PESTAÑA 1: VISTA DASHBOARD -->
+        <section class="vista-contenido contenido-dashboard">
+          <h2 class="titulo-seccion">Dashboard (Panel Principal)</h2>
+          <div class="dashboard-grid">
+            <div class="kpi-card">
+              <h3>Total Productos Almacén</h3>
+              <p class="kpi-value">1,245 u</p>
+            </div>
+            <div class="kpi-card">
+              <h3>Ventas del Mes </h3>
+              <p class="kpi-value">342 items</p>
+            </div>
+            <div class="kpi-card alerta-stock-card">
+              <h3>Alertas de Stock Bajo</h3>
+              <p class="kpi-value">4 items</p>
+            </div>
+            <div class="kpi-card grafica-mock-card">
+              <h3>Gráfica de Movimientos (Últimos 7 días)</h3>
+              <div class="barras-grafica">
+                <div class="barra-g entrada" style="height: 70%;"><span>Entradas</span></div>
+                <div class="barra-g salida" style="height: 45%;"><span>Salidas</span></div>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- PESTAÑA 2: VISTA GESTOR DE INVENTARIO -->
+        <section class="vista-contenido contenido-inventario">
+          <div class="cabecera-vista">
+            <h2> Gestor de Inventario (Listado)</h2>
+            <label for="tab-formulario" class="boton-accion-base boton-agregar-producto">+</label>
+          </div>
+
+          <div class="barra-herramientas-inventario">
+            <input type="text" placeholder="🔍 Buscar por nombre o SKU..." class="input-busqueda">
+            <div class="filtros-grupo">
+              <select><option>Filtrar por Estado</option><option>Activo</option><option>Inactivo</option></select>
+              <select><option>Filtrar por Categoría</option><option>Ropa</option><option>Calzado</option></select>
+            </div>
+          </div>
+
+          <!-- ESTADO DE CARGA -->
+          <div class="bloque-skeletons-carga">
+            <h3>Estados de Carga (Skeletons React)</h3>
+            <div class="skeleton-card">
+              <div class="skeleton-line title"></div>
+              <div class="skeleton-line detail"></div>
+            </div>
+          </div>
+
+          <!-- MÓVIL: PATRÓN DE CARDS -->
+          <div class="mobile-cards-view">
+            <article class="product-card">
+              <div class="card-row">
+                <h4>Camiseta Básica</h4>
+                <span class="badge status-activo">ACTIVO</span>
+              </div>
+              <p class="sku-text">SKU: TSH-BLU-S</p>
+              <p class="stock-text alertado">Stock Actual: 5 (Mín: 10)</p>
+              <p class="precio-text">Precio: $15.99</p>
+              <div class="card-actions-mock">
+                <label for="tab-formulario" class="btn-link edit">Editar</label>
+                <button class="btn-link delete-trigger">Borrar</button>
+              </div>
+            </article>
+          </div>
+
+          <!-- ESCRITORIO: TABLA DE DATOS -->
+          <div class="desktop-table-view">
+            <table class="data-table">
+              <thead>
+                <tr>
+                  <th>SKU</th>
+                  <th>Nombre</th>
+                  <th>Talla</th>
+                  <th>Categoría</th>
+                  <th>Stock</th>
+                  <th>Precio</th>
+                  <th>Acciones</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>TSH-BLU-S</td>
+                  <td>Camiseta Básica</td>
+                  <td>S</td>
+                  <td>Ropa</td>
+                  <td class="text-danger-stock">5 (Bajo)</td>
+                  <td>$15.99</td>
+                  <td>
+                    <label for="tab-formulario" class="btn-link edit">Editar</label>
+                    <button class="btn-link delete-trigger">Borrar</button>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </section>
+
+        <!-- PESTAÑA 3: VISTA FORMULARIO (AGREGAR / EDITAR PRODUCTO) -->
+        <section class="vista-contenido contenido-formulario">
+          <h2>Formulario de Producto (Meticuloso)</h2>
+          <form class="crud-form-mock" onsubmit="return false;">
+            <fieldset>
+              <legend>1. Información General</legend>
+              <div class="form-group error-state">
+                <label>Nombre del Producto * (máx. 100)</label>
+                <input type="text" required maxlength="100" placeholder="Ej: Camiseta Polo">
+                <span class="error-msg">Validación: Este campo obligatorio no puede estar vacío.</span>
+              </div>
+              <div class="form-group">
+                <label>SKU * (Código Único Restrictivo)</label>
+                <input type="text" value="TSH-BLU-S" required>
+                <span class="error-msg">Validación: El código SKU ya existe en la BD.</span>
+              </div>
+            </fieldset>
+            <fieldset>
+              <legend>2. Especificaciones e Inventario</legend>
+              <div class="form-grid-3">
+                <div class="form-group">
+                  <label>Talla *</label>
+                  <select required><option>S</option><option>M</option><option>L</option></select>
+                </div>
+                <div class="form-group"><label>Precio ($) *</label><input type="number" min="0" value="15.99" required></div>
+                <div class="form-group"><label>Estado *</label><select required><option>ACTIVO</option><option>INACTIVO</option></select></div>
+              </div>
+            </fieldset>
+            <label for="tab-inventario" class="boton-accion-base btn-guardar-mock">Guardar y Volver al Inventario</label>
+          </form>
+        </section>
+
+        <!-- PESTAÑAS SUBORDINADAS (PROVEEDORES, CATEGORIAS, REPORTES) -->
+        <section class="vista-contenido contenido-proveedores">
+          <h2>Directorio de Proveedores</h2>
+          <div class="bloque-contenido-esqueleto"><p>Módulo asignado a la base de datos de Proveedores de moda.</p></div>
+        </section>
+
+        <section class="vista-contenido contenido-categorias">
+          <h2>Organización de Categorías</h2>
+          <div class="bloque-contenido-esqueleto"><p>Módulo asignado a la clasificación y tablas de categorías de prendas.</p></div>
+        </section>
+
+        <section class="vista-contenido contenido-reportes">
+          <h2>Reportes de Entradas y Salidas</h2>
+          <div class="bloque-contenido-esqueleto"><p>Módulo asignado a las bitácoras e historial de transacciones de stock.</p></div>
+        </section>
+
+      </main>
+    </div>
+  </div>
+
+  <!-- INTERACCIÓN UX: MODAL DE ADVERTENCIA PARA ELIMINACIONES -->
+  <div class="modal-overlay" id="deleteModal">
+    <div class="modal-content">
+      <h3>⚠️ ¿Confirmar Eliminación?</h3>
+      <p>¿Está seguro de que desea eliminar permanentemente este producto del inventario? Esta acción previene borrados accidentales.</p>
+      <div class="modal-actions">
+        <button class="btn-modal-cancel" id="cancelBtn">Cancelar</button>
+        <button class="btn-modal-confirm" id="confirmBtn">Confirmar Borrado</button>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    // Manejo de drawer móvil
+    const hamb = document.getElementById('hamburguesaBtn');
+    const side = document.getElementById('sidebarMenu');
+    hamb.addEventListener('click', () => { side.classList.toggle('drawer-open'); });
+
+    // Cierre automático del drawer móvil al tocar una pestaña
+    document.querySelectorAll('.item-menu').forEach(item => {
+      item.addEventListener('click', () => { side.classList.remove('drawer-open'); });
+    });
+
+    // Control visual del modal de borrado
+    document.querySelectorAll('.delete-trigger').forEach(btn => {
+      btn.addEventListener('click', () => { document.getElementById('deleteModal').style.display = 'flex'; });
+    });
+    document.getElementById('cancelBtn').addEventListener('click', () => { document.getElementById('deleteModal').style.display = 'none'; });
+    document.getElementById('confirmBtn').addEventListener('click', () => { document.getElementById('deleteModal').style.display = 'none'; });
+  </script>
+</body>
+</html>
