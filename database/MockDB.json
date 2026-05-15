@@ -1,0 +1,76 @@
+{
+  "tallas": [
+    { "id_talla": 10, "nombre": "S", "categoria": "INFANTIL" },
+    { "id_talla": 14, "nombre": "M", "categoria": "ADULTO" },
+    { "id_talla": 15, "nombre": "L", "categoria": "ADULTO" },
+    { "id_talla": 16, "nombre": "XL", "categoria": "ADULTO" }
+  ],
+  "categorias": [
+    { "id_categoria": 1, "nombre": "Ropa Casual", "descripcion": "Prendas de uso diario", "activo": true },
+    { "id_categoria": 2, "nombre": "Ropa Deportiva", "descripcion": "Prendas para entrenamiento", "activo": true },
+    { "id_categoria": 3, "nombre": "Calzado", "descripcion": "Zapatos y zapatillas", "activo": true },
+    { "id_categoria": 4, "nombre": "Accesorios", "descripcion": "Cinturones, gorras, etc.", "activo": true }
+  ],
+  "proveedores": [
+    { "id_proveedor": 1, "nombre": "Textiles Globales SA", "contacto": "Carlos Ruiz", "telefono": "7777-1111", "activo": true },
+    { "id_proveedor": 2, "nombre": "Distribuidora Moda", "contacto": "Ana López", "telefono": "7777-2222", "activo": true },
+    { "id_proveedor": 3, "nombre": "Calzado Urbano", "contacto": "Luis Pérez", "telefono": "7777-3333", "activo": true },
+    { "id_proveedor": 4, "nombre": "Accesorios Premium", "contacto": "Marta Gómez", "telefono": "7777-4444", "activo": true }
+  ],
+  "productos": [
+    {
+      "id_producto": 1,
+      "sku": "TSH-BLU-S",
+      "nombre": "Camiseta Básica Azul",
+      "descripcion": "Camiseta de algodón 100% transpirable",
+      "precio_unitario": 15.99,
+      "estado": "ACTIVO",
+      "talla": { "id_talla": 14, "nombre": "M", "categoria": "ADULTO" },
+      "id_categoria": 1,
+      "id_proveedor": 1,
+      "inventario": { "cantidad_actual": 5, "stock_minimo": 10, "stock_maximo": 100 }
+    },
+    {
+      "id_producto": 2,
+      "sku": "JNS-SLIM-M",
+      "nombre": "Jeans Slim Fit",
+      "descripcion": "Jeans de mezclilla elástica corte slim",
+      "precio_unitario": 35.50,
+      "estado": "ACTIVO",
+      "talla": { "id_talla": 14, "nombre": "M", "categoria": "ADULTO" },
+      "id_categoria": 1,
+      "id_proveedor": 2,
+      "inventario": { "cantidad_actual": 42, "stock_minimo": 15, "stock_maximo": 150 }
+    },
+    {
+      "id_producto": 3,
+      "sku": "KID-SHOE-S",
+      "nombre": "Zapatos Deportivos Infantiles",
+      "descripcion": "Zapatos con velcro para niños",
+      "precio_unitario": 22.00,
+      "estado": "INACTIVO",
+      "talla": { "id_talla": 10, "nombre": "S", "categoria": "INFANTIL" },
+      "id_categoria": 3,
+      "id_proveedor": 3,
+      "inventario": { "cantidad_actual": 0, "stock_minimo": 5, "stock_maximo": 50 }
+    },
+    {
+      "id_producto": 4,
+      "sku": "DRS-SMR-L",
+      "nombre": "Vestido Floral Verano",
+      "descripcion": "Vestido ligero con estampado floral",
+      "precio_unitario": 45.00,
+      "estado": "ACTIVO",
+      "talla": { "id_talla": 15, "nombre": "L", "categoria": "ADULTO" },
+      "id_categoria": 1,
+      "id_proveedor": 1,
+      "inventario": { "cantidad_actual": 8, "stock_minimo": 10, "stock_maximo": 40 }
+    }
+  ],
+  "movimientos": [
+    { "id_movimiento": 1, "tipo": "ENTRADA", "id_producto": 1, "cantidad": 50, "fecha": "2026-05-10", "motivo": "COMPRA" },
+    { "id_movimiento": 2, "tipo": "SALIDA", "id_producto": 2, "cantidad": 5, "fecha": "2026-05-11", "motivo": "VENTA" },
+    { "id_movimiento": 3, "tipo": "SALIDA", "id_producto": 1, "cantidad": 12, "fecha": "2026-05-12", "motivo": "VENTA" },
+    { "id_movimiento": 4, "tipo": "ENTRADA", "id_producto": 4, "cantidad": 20, "fecha": "2026-05-13", "motivo": "COMPRA" }
+  ]
+}
