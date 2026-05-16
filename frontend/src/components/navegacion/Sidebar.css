@@ -1,0 +1,275 @@
+/* Sidebar - Menú lateral de navegación */
+
+.menu-lateral {
+  position: fixed;
+  left: 0;
+  top: 0;
+  height: 100vh;
+  width: 280px;
+  background: linear-gradient(135deg, var(--primary) 0%, #0f1f3a 100%);
+  color: var(--white);
+  padding: 20px 0;
+  box-shadow: 2px 0 10px rgba(0, 0, 0, 0.2);
+  z-index: 999;
+  overflow-y: auto;
+  transition: all 0.3s ease;
+}
+
+/* Overlay para cerrar menú en móvil */
+.sidebar-overlay {
+  display: none;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.5);
+  z-index: 998;
+}
+
+/* Botón toggle para móvil */
+.btn-menu-toggle {
+  display: none;
+  position: fixed;
+  top: 15px;
+  left: 15px;
+  z-index: 1001;
+  background: var(--primary);
+  color: var(--white);
+  border: none;
+  border-radius: 8px;
+  padding: 10px 15px;
+  font-size: 1.5rem;
+  cursor: pointer;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+  transition: all 0.3s ease;
+}
+
+.btn-menu-toggle:hover {
+  background: #0f1f3a;
+  transform: scale(1.05);
+}
+
+/* Marca de la empresa */
+.sidebar-brand {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 20px 20px;
+  border-bottom: 2px solid rgba(255, 255, 255, 0.1);
+  margin-bottom: 20px;
+  font-size: 1.3rem;
+  font-weight: 700;
+  letter-spacing: 0.5px;
+}
+
+.brand-icon {
+  font-size: 1.8rem;
+}
+
+.brand-text {
+  background: linear-gradient(135deg, #ffffff, #e0e0e0);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+/* Navegación principal */
+.navegacion-principal {
+  padding: 10px 0;
+}
+
+.navegacion-principal ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.navegacion-principal li {
+  margin: 5px 0;
+}
+
+.item-menu {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+  width: 100%;
+  padding: 14px 20px;
+  background: transparent;
+  border: none;
+  color: rgba(255, 255, 255, 0.8);
+  font-size: 0.95rem;
+  font-weight: 500;
+  cursor: pointer;
+  text-align: left;
+  transition: all 0.3s ease;
+  border-left: 4px solid transparent;
+}
+
+.item-menu:hover {
+  background: rgba(255, 255, 255, 0.1);
+  color: var(--white);
+  border-left-color: var(--green);
+  padding-left: 18px;
+}
+
+.item-menu.activo {
+  background: rgba(255, 255, 255, 0.15);
+  color: var(--white);
+  border-left-color: var(--green);
+  font-weight: 600;
+  box-shadow: inset 0 0 10px rgba(40, 167, 69, 0.2);
+}
+
+.menu-icon {
+  font-size: 1.5rem;
+  min-width: 30px;
+  text-align: center;
+}
+
+.menu-texto {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.menu-label {
+  display: block;
+  font-size: 0.95rem;
+  font-weight: 500;
+}
+
+.menu-subtitulo {
+  display: block;
+  font-size: 0.75rem;
+  opacity: 0.7;
+  font-weight: 400;
+}
+
+/* Footer del sidebar */
+.sidebar-footer {
+  position: absolute;
+  bottom: 0;
+  width: 100%;
+  padding: 15px 20px;
+  border-top: 1px solid rgba(255, 255, 255, 0.1);
+  text-align: center;
+  font-size: 0.8rem;
+  color: rgba(255, 255, 255, 0.6);
+}
+
+.sidebar-footer p {
+  margin: 0;
+}
+
+/* Scrollbar personalizada */
+.menu-lateral::-webkit-scrollbar {
+  width: 6px;
+}
+
+.menu-lateral::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.menu-lateral::-webkit-scrollbar-thumb {
+  background: rgba(255, 255, 255, 0.3);
+  border-radius: 3px;
+}
+
+.menu-lateral::-webkit-scrollbar-thumb:hover {
+  background: rgba(255, 255, 255, 0.5);
+}
+
+/* Responsivo - Tableta */
+@media (max-width: 1024px) {
+  .menu-lateral {
+    width: 240px;
+  }
+
+  .sidebar-brand {
+    padding: 15px 15px;
+    gap: 10px;
+    font-size: 1.1rem;
+  }
+
+  .item-menu {
+    padding: 12px 15px;
+  }
+}
+
+/* Responsivo - Móvil */
+@media (max-width: 768px) {
+  .menu-lateral {
+    width: 100%;
+    max-width: 280px;
+    transform: translateX(-100%);
+  }
+
+  .menu-lateral.abierto {
+    transform: translateX(0);
+  }
+
+  .sidebar-overlay {
+    display: block;
+  }
+
+  .btn-menu-toggle {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .navegacion-principal {
+    padding: 15px 0;
+  }
+
+  .item-menu {
+    padding: 14px 15px;
+  }
+
+  .sidebar-brand {
+    font-size: 1.2rem;
+  }
+}
+
+/* Responsivo - Móvil pequeño */
+@media (max-width: 480px) {
+  .menu-lateral {
+    max-width: 100%;
+    padding: 15px 0;
+  }
+
+  .sidebar-brand {
+    padding: 15px;
+    font-size: 1.1rem;
+  }
+
+  .item-menu {
+    padding: 12px 15px;
+    font-size: 0.9rem;
+  }
+
+  .menu-icon {
+    font-size: 1.3rem;
+  }
+
+  .sidebar-footer {
+    font-size: 0.75rem;
+  }
+}
+
+/* Animaciones */
+@keyframes slideInLeft {
+  from {
+    transform: translateX(-100%);
+    opacity: 0;
+  }
+  to {
+    transform: translateX(0);
+    opacity: 1;
+  }
+}
+
+.menu-lateral.abierto {
+  animation: slideInLeft 0.3s ease;
+}
