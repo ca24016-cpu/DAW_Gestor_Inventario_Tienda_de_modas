@@ -6,6 +6,9 @@ const ProductoLista = () => {
   const [loading, setLoading] = useState(true);
   const [filtro, setFiltro] = useState("TODOS");
 
+  const [productoEditando, setProductoEditando] = useState(null);
+  const [mostrarModal, setMostrarModal] = useState(false);
+
   // GET - Cargar productos desde MockDB
   useEffect(() => {
     fetch("/MockDB.json")
@@ -41,6 +44,37 @@ const ProductoLista = () => {
     if (cantidad_actual <= stock_minimo) return "stock-bajo";
     return "stock-ok";
   };
+
+//AgregadoNuevo
+  const eliminarProducto = (id) => {
+    const confirmar = window.confirm(
+      "¿Estas seguro de eliminar este producto?"
+    );
+
+    if (confirmar) {
+      const nuevosProductos = productos.filter(
+        (producto) => producto.id_producto !== id
+      );
+
+      setProductos(nuevosProductos);
+    }
+  };
+
+  const editarProducto = (producto) => {
+  setProductoEditando({ ...producto });
+  setMostrarModal(true);
+};
+
+const guardarCambios = () => {
+  const productosActualizados = productos.map((producto) =>
+    producto.id_producto === productoEditando.id_producto
+      ? productoEditando
+      : producto
+  );
+
+  setProductos(productosActualizados);
+  setMostrarModal(false);
+};
 
   if (loading) {
     return (
@@ -142,12 +176,21 @@ const ProductoLista = () => {
                     <button className="btn-ver" title="Ver detalles">
                       👁️
                     </button>
-                    <button className="btn-editar" title="Editar">
+                    <button
+                      className="btn-editar"
+                      title="Editar"
+                      onClick={() => editarProducto(producto)}
+                    >
                       ✏️
                     </button>
-                    <button className="btn-eliminar" title="Eliminar">
+                    <button
+                      className="btn-eliminar"
+                      title="Eliminar"
+                      onClick={() => eliminarProducto(producto.id_producto)}
+                    >
                       🗑️
                     </button>
+                    
                   </td>
                 </tr>
               ))}
@@ -155,6 +198,59 @@ const ProductoLista = () => {
           </table>
         </div>
       )}
+
+{mostrarModal && productoEditando && (
+  <div className="modal-overlay">
+    <div className="modal-editar">
+      <h2>Editar Producto</h2>
+
+      <input
+        type="text"
+        value={productoEditando.nombre}
+        onChange={(e) =>
+          setProductoEditando({
+            ...productoEditando,
+            nombre: e.target.value,
+          })
+        }
+      />
+
+      <input
+        type="number"
+        value={productoEditando.precio_unitario}
+        onChange={(e) =>
+          setProductoEditando({
+            ...productoEditando,
+            precio_unitario: parseFloat(e.target.value),
+          })
+        }
+      />
+
+      <select
+        value={productoEditando.estado}
+        onChange={(e) =>
+          setProductoEditando({
+            ...productoEditando,
+            estado: e.target.value,
+          })
+        }
+      >
+        <option value="ACTIVO">ACTIVO</option>
+        <option value="INACTIVO">INACTIVO</option>
+      </select>
+
+      <div className="modal-buttons">
+        <button onClick={guardarCambios}>
+          Guardar
+        </button>
+
+        <button onClick={() => setMostrarModal(false)}>
+          Cancelar
+        </button>
+      </div>
+    </div>
+  </div>
+)}
 
       <div className="estadisticas-lista">
         <div className="stat">
