@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
 import "./ProductoLista.css";
+import { obtenerProductos, eliminarProductoAPI, actualizarProductoAPI } from "../../services/apiService";
 
 const ProductoLista = () => {
   const [productos, setProductos] = useState([]);
@@ -9,22 +10,22 @@ const ProductoLista = () => {
   const [productoEditando, setProductoEditando] = useState(null);
   const [mostrarModal, setMostrarModal] = useState(false);
 
-  // GET - Cargar productos desde MockDB
+    // GET - Cargar productos reales desde el Backend de Java
   useEffect(() => {
-    fetch("/MockDB.json")
-      .then((response) => {
-        if (!response.ok) throw new Error("Error al cargar productos");
-        return response.json();
-      })
+    obtenerProductos()
       .then((data) => {
-        setProductos(data.productos);
+        // Si el backend devuelve el arreglo directo, usamos 'data'
+        // Si viene envuelto en un objeto tipo { productos: [...] }, usamos 'data.productos'
+        const lista = Array.isArray(data) ? data : (data.productos || []);
+        setProductos(lista);
         setLoading(false);
       })
       .catch((error) => {
-        console.error("Error al cargar productos:", error);
+        console.error("Error al cargar productos desde la API:", error);
         setLoading(false);
       });
   }, []);
+
 
   // Filtrar productos por estado
   const productosFiltrados =
@@ -46,34 +47,40 @@ const ProductoLista = () => {
   };
 
 //AgregadoNuevo
-  const eliminarProducto = (id) => {
-    const confirmar = window.confirm(
-      "¿Estas seguro de eliminar este producto?"
-    );
-
-    if (confirmar) {
+  const eliminarProducto = async (id) => {
+  const confirmar = window.confirm("¿Estas seguro de eliminar este producto?");
+  if (confirmar) {
+    const eliminado = await eliminarProductoAPI(id);
+    if (eliminado) {
       const nuevosProductos = productos.filter(
         (producto) => producto.id_producto !== id
       );
-
       setProductos(nuevosProductos);
+    } else {
+      alert("No se pudo eliminar en el servidor.");
     }
-  };
+  }
+};
 
   const editarProducto = (producto) => {
   setProductoEditando({ ...producto });
   setMostrarModal(true);
 };
 
-const guardarCambios = () => {
-  const productosActualizados = productos.map((producto) =>
-    producto.id_producto === productoEditando.id_producto
-      ? productoEditando
-      : producto
-  );
+const guardarCambios = async () => {
+  const actualizado = await actualizarProductoAPI(productoEditando.id_producto, productoEditando);
 
-  setProductos(productosActualizados);
-  setMostrarModal(false);
+  if (actualizado) {
+    const productosActualizados = productos.map((producto) =>
+      producto.id_producto === productoEditando.id_producto
+        ? productoEditando
+        : producto
+    );
+    setProductos(productosActualizados);
+    setMostrarModal(false);
+  } else {
+    alert("No se pudieron guardar los cambios en el servidor.");
+  }
 };
 
   if (loading) {
