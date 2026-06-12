@@ -1,5 +1,7 @@
 import { useState } from "react";
 import "./FormularioProducto.css";
+import { crearProductoAPI } from "../../services/apiService";
+
 
 const FormularioProducto = ({ onProductoAgregado }) => {
   const [formData, setFormData] = useState({
@@ -57,19 +59,17 @@ const FormularioProducto = ({ onProductoAgregado }) => {
   };
 
   // Simular POST
+    // POST - Guardar producto real en el Backend de Java
   const handleSubmit = async (e) => {
     e.preventDefault();
-
     if (!validarFormulario()) {
       return;
     }
-
     setCargando(true);
 
-    // Simular envío a API (después se conectará con el backend real)
     try {
-      const nuevoProducto = {
-        id_producto: Math.floor(Math.random() * 10000),
+      // Estructuramos el objeto JSON tal como lo espera el Backend
+      const productoParaEnviar = {
         nombre: formData.nombre,
         descripcion: formData.descripcion,
         sku: formData.sku,
@@ -83,38 +83,43 @@ const FormularioProducto = ({ onProductoAgregado }) => {
         },
       };
 
-      // Simular respuesta del servidor (200 ms de delay)
-      await new Promise((resolve) => setTimeout(resolve, 200));
+      // 1. Enviamos el JSON al servidor de Java
+      const productoGuardado = await crearProductoAPI(productoParaEnviar);
 
-      console.log("✅ Producto agregado:", nuevoProducto);
+      if (productoGuardado) {
+        console.log("Producto agregado en BD:", productoGuardado);
+        
+        // Mostrar confirmación visual de Andrea
+        setEnviado(true);
+        setTimeout(() => setEnviado(false), 3000);
 
-      // Mostrar confirmación
-      setEnviado(true);
-      setTimeout(() => setEnviado(false), 3000);
+        // Notificar al componente padre con los datos reales que asignó la BD
+        if (onProductoAgregado) {
+          onProductoAgregado(productoGuardado);
+        }
 
-      // Notificar al componente padre
-      if (onProductoAgregado) {
-        onProductoAgregado(nuevoProducto);
+        // Limpiar el formulario
+        setFormData({
+          nombre: "Polo Deportivo Premium",
+          descripcion: "Polo de alta calidad para actividades deportivas",
+          precio_unitario: 29.99,
+          sku: "PLO-DEPO-001",
+          tallaId: 14,
+          estado: "ACTIVO",
+          cantidad_inicial: 20,
+          stock_minimo: 10,
+        });
+        setErrores({});
+      } else {
+        alert("Hubo un error al guardar el producto en el servidor.");
       }
-
-      // Limpiar formulario
-      setFormData({
-        nombre: "Polo Deportivo Premium",
-        descripcion: "Polo de alta calidad para actividades deportivas",
-        precio_unitario: 29.99,
-        sku: "PLO-DEPO-001",
-        tallaId: 14,
-        estado: "ACTIVO",
-        cantidad_inicial: 20,
-        stock_minimo: 10,
-      });
-      setErrores({});
     } catch (error) {
-      console.error("❌ Error al agregar producto:", error);
+      console.error("Error al agregar producto:", error);
     } finally {
       setCargando(false);
     }
   };
+
 
   return (
     <div className="formulario-producto-container">
