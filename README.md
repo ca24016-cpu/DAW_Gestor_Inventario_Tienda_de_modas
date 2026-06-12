@@ -127,15 +127,51 @@ mvnw.cmd spring-boot:run
 
 ---
 
-# 📚 Documentación de la API
+## 📚 Documentación de la API con Swagger
 
-Una vez iniciado el backend, puedes consultar la documentación de la API en Swagger UI:
+El backend está documentado utilizando **Swagger (OpenAPI 3.0)**, lo que permite visualizar y probar todos los endpoints de forma interactiva.
+
+### Acceso a la Documentación
+
+Una vez iniciado el backend, accede a:
 
 ```txt
-http://localhost:8083/swagger-ui/index.html
+http://localhost:8080/swagger-ui/index.html
 ```
-
 > El puerto puede variar dependiendo de la configuración definida en `application.properties`.
+
+
+### Evidencias de la Documentación
+
+#### Vista General de la API
+
+![Swagger General](./media/Swagger-General.png)
+
+#### Detalle de Endpoint - Obtener Producto
+
+![Swagger Detalle GET](./media/swagger-GET-Detalle.png)
+
+#### Estructura de Datos - Crear Producto
+
+![Swagger Detalle POST](./media/swagger-POST-Detalle.png)
+
+
+## 📋 Tabla de Endpoints - API REST
+
+**Base URL:** `http://localhost:8080`  
+**Documentación interactiva:** `http://localhost:8080/swagger-ui/index.html`
+
+### Gestión de Productos
+
+| Método | Endpoint | Descripción | Código de Respuesta |
+|--------|----------|-------------|---------------------|
+| GET | `/api/productos` | Listar todos los productos | 200 OK |
+| GET | `/api/productos/{id}` | Obtener producto por ID | 200 OK / 404 Not Found |
+| POST | `/api/productos` | Crear nuevo producto | 201 Created |
+| PUT | `/api/productos/{id}` | Actualizar producto existente | 200 OK |
+| DELETE | `/api/productos/{id}` | Eliminar producto del inventario | 204 No Content |
+
+> **Nota:** Todos los endpoints utilizan el formato JSON para el intercambio de datos.
 
 ---
 
