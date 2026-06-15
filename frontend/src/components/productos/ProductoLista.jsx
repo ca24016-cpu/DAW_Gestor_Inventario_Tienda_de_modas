@@ -167,7 +167,7 @@ const ProductoLista = () => {
             onChange={(e) => setCategoriaFiltro(e.target.value)}
             className="select-filtro-categoria"
           >
-            <option value="TODAS">📁 Filtrar por Categoría: Todas</option>
+            <option value="TODAS">Filtrar por Categoría: Todas</option>
             {categorias
               .filter((c) => !c.id_categoria_padre) // Categorías principales (Padres)
               .map((padre) => (
