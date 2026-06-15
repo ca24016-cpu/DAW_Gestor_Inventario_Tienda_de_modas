@@ -103,6 +103,8 @@
   font-size: 0.95rem;
   font-family: inherit;
   transition: border-color 0.3s ease, box-shadow 0.3s ease;
+  background: #fff;
+  color: #333;
 }
 
 .form-grupo input:focus,
