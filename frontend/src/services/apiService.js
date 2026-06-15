@@ -1,4 +1,3 @@
-
 const API_URL = 'http://localhost:8080/api/productos';
 const INVENTARIO_URL = 'http://localhost:8080/api/inventario';
 
