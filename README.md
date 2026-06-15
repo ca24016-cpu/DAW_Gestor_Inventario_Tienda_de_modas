@@ -11,15 +11,16 @@ Implementacion de un sistema de gestion de inventario (Producto de venta) orient
 
 ##  Requisitos previos
 
-Antes de ejecutar el proyecto, asegúrate de tener instalado:
+### Método Recomendado (Docker):
+- [Docker Desktop 4.0+](https://www.docker.com/products/docker-desktop/) (incluye Docker Engine y Docker Compose)
+- Navegador web para acceder a la aplicación y documentación
 
-- [Java JDK 17+](https://www.oracle.com/java/technologies/javase/jdk17-archive-downloads.html)  
-- [Maven](https://maven.apache.org/)  
+### Método Manual (Desarrollo):
+- [Java JDK 21+](https://www.oracle.com/java/technologies/javase/jdk21-archive-downloads.html)  
+- [Maven 3.8+](https://maven.apache.org/)  
+- [Node.js 18+](https://nodejs.org/) y gestor de paquetes `pnpm` o `npm`
 - [PostgreSQL](https://www.postgresql.org/download/) y [pgAdmin](https://www.pgadmin.org/download/)  
 - [Git](https://git-scm.com/downloads)  
-- Navegador web para acceder a la API y documentación  
-
-Opcional:
 - IDE recomendado: Visual Studio Code, IntelliJ IDEA o Eclipse  
 
 
@@ -43,12 +44,51 @@ Opcional:
 
 # 💻 Guía de Inicialización del Proyecto
 
-El proyecto está dividido en dos módulos principales:
-
-- **Frontend:** Interfaz de usuario
-- **Backend:** Servidor y base de datos
+El proyecto se puede inicializar e integrar de forma rápida y automatizada utilizando **Docker** (método recomendado para validación y pruebas integradas) o de forma manual para cada módulo.
 
 ---
+
+# 🐳 Inicialización Integrada con Docker (Recomendado)
+
+Este método automatiza la descarga de imágenes, la compilación de código, la configuración de la base de datos (con su esquema y datos de prueba) y la comunicación de red interna entre los contenedores.
+
+### 1. Iniciar el Stack Completo
+Ejecuta el siguiente comando en la raíz del proyecto para compilar e iniciar los servicios en segundo plano:
+
+```bash
+docker compose up -d --build
+```
+* *Nota:* El flag `--build` asegura que se construyan imágenes limpias a partir de las fuentes locales actuales y el flag `-d` libera tu consola.
+
+### 2. Verificar Estado de los Servicios
+Puedes verificar que los contenedores estén activos y en estado **Up** mediante:
+
+```bash
+docker compose ps
+```
+
+Deberás ver los tres servicios corriendo en los puertos mapeados del host:
+*   **`fashiontrack_frontend`** (puerto `80`)
+*   **`fashiontrack_backend`** (puerto `8080`)
+*   **`fashiontrack_db`** (puerto `5432`)
+
+### 3. Acceso a la Aplicación
+Una vez inicializado el stack, puedes ingresar desde el navegador web de la máquina host a:
+*   **Frontend (Aplicación React):** [http://localhost](http://localhost)
+*   **Swagger UI (API Docs):** [http://localhost:8080/swagger-ui/index.html](http://localhost:8080/swagger-ui/index.html)
+
+### 4. Apagar los Servicios
+Para detener y retirar los contenedores y redes virtuales del stack manteniendo intactos los datos de la base de datos (gracias al volumen configurado):
+
+```bash
+docker compose down
+```
+
+---
+
+# 🛠️ Inicialización Manual para Desarrollo Local
+
+Si prefieres ejecutar los módulos por separado de forma local en tu máquina host, sigue estas instrucciones:
 
 # 🖥️ Inicializar el Frontend
 
