@@ -10,6 +10,19 @@ const ProveedorLista = ({ proveedores, loading, onEditar, onEliminar }) => {
   
   const [proveedorDetalle, setProveedorDetalle] = useState(null);
   const [mostrarModalDetalle, setMostrarModalDetalle] = useState(false);
+  const [copiadoCampo, setCopiadoCampo] = useState(null); // 'telefono' | 'email' | null
+
+  const copiarAlPortapapeles = (texto, campo) => {
+    if (!texto) return;
+    navigator.clipboard.writeText(texto)
+      .then(() => {
+        setCopiadoCampo(campo);
+        setTimeout(() => setCopiadoCampo(null), 2000);
+      })
+      .catch((err) => {
+        console.error("No se pudo copiar al portapapeles:", err);
+      });
+  };
 
   // Filtrado y búsqueda
   const proveedoresFiltrados = proveedores.filter((prov) => {
@@ -215,11 +228,33 @@ const ProveedorLista = ({ proveedores, loading, onEditar, onEliminar }) => {
                 </div>
                 <div className="detalle-item">
                   <span className="detalle-label">Teléfono:</span>
-                  <span className="detalle-valor">{proveedorDetalle.telefono || "No registrado"}</span>
+                  <div className="detalle-valor-copiar">
+                    <span className="detalle-valor">{proveedorDetalle.telefono || "No registrado"}</span>
+                    {proveedorDetalle.telefono && (
+                      <button
+                        className="btn-copiar"
+                        onClick={() => copiarAlPortapapeles(proveedorDetalle.telefono, "telefono")}
+                        title="Copiar teléfono"
+                      >
+                        {copiadoCampo === "telefono" ? "✅ Copiado" : "📋"}
+                      </button>
+                    )}
+                  </div>
                 </div>
                 <div className="detalle-item">
                   <span className="detalle-label">Email:</span>
-                  <span className="detalle-valor">{proveedorDetalle.email || "No registrado"}</span>
+                  <div className="detalle-valor-copiar">
+                    <span className="detalle-valor">{proveedorDetalle.email || "No registrado"}</span>
+                    {proveedorDetalle.email && (
+                      <button
+                        className="btn-copiar"
+                        onClick={() => copiarAlPortapapeles(proveedorDetalle.email, "email")}
+                        title="Copiar email"
+                      >
+                        {copiadoCampo === "email" ? "✅ Copiado" : "📋"}
+                      </button>
+                    )}
+                  </div>
                 </div>
                 <div className="detalle-item full-width">
                   <span className="detalle-label">Dirección:</span>
