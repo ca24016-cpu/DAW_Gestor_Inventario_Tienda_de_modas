@@ -161,3 +161,179 @@ export async function crearProductoAPI(nuevoProducto) {
         return null;
     }
 }
+
+// ==========================================
+// APIS PARA CATEGORÍAS
+// ==========================================
+
+export async function obtenerCategorias() {
+    try {
+        const response = await fetch('http://localhost:8080/api/categorias');
+        if (!response.ok) throw new Error('Error al conectar con la API de categorías');
+        const data = await response.json();
+        return data.map(c => ({
+            id_categoria: c.id,
+            nombre: c.nombre,
+            descripcion: c.descripcion,
+            id_categoria_padre: c.categoriaPadreId,
+            activo: c.activo
+        }));
+    } catch (error) {
+        console.error('Error en obtenerCategorias:', error);
+        return [];
+    }
+}
+
+export async function crearCategoriaAPI(nueva) {
+    try {
+        const backendCat = {
+            nombre: nueva.nombre,
+            descripcion: nueva.descripcion,
+            categoriaPadreId: nueva.id_categoria_padre || null,
+            activo: nueva.activo,
+            nivel: nueva.id_categoria_padre ? 2 : 1
+        };
+        const response = await fetch('http://localhost:8080/api/categorias', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(backendCat)
+        });
+        if (!response.ok) throw new Error('No se pudo guardar la categoría');
+        const c = await response.json();
+        return {
+            id_categoria: c.id,
+            nombre: c.nombre,
+            descripcion: c.descripcion,
+            id_categoria_padre: c.categoriaPadreId,
+            activo: c.activo
+        };
+    } catch (error) {
+        console.error('Error en crearCategoriaAPI:', error);
+        return null;
+    }
+}
+
+export async function actualizarCategoriaAPI(id, editada) {
+    try {
+        const backendCat = {
+            id: editada.id_categoria,
+            nombre: editada.nombre,
+            descripcion: editada.descripcion,
+            categoriaPadreId: editada.id_categoria_padre || null,
+            activo: editada.activo,
+            nivel: editada.id_categoria_padre ? 2 : 1
+        };
+        const response = await fetch(`http://localhost:8080/api/categorias/${id}`, {
+            method: 'PUT',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(backendCat)
+        });
+        return response.ok;
+    } catch (error) {
+        console.error('Error en actualizarCategoriaAPI:', error);
+        return false;
+    }
+}
+
+export async function eliminarCategoriaAPI(id) {
+    try {
+        const response = await fetch(`http://localhost:8080/api/categorias/${id}`, {
+            method: 'DELETE'
+        });
+        return response.ok;
+    } catch (error) {
+        console.error('Error en eliminarCategoriaAPI:', error);
+        return false;
+    }
+}
+
+// ==========================================
+// APIS PARA PROVEEDORES
+// ==========================================
+
+export async function obtenerProveedores() {
+    try {
+        const response = await fetch('http://localhost:8080/api/proveedores');
+        if (!response.ok) throw new Error('Error al conectar con la API de proveedores');
+        const data = await response.json();
+        return data.map(p => ({
+            id_proveedor: p.id,
+            nombre: p.nombre,
+            contacto: p.contacto,
+            telefono: p.telefono,
+            email: p.email,
+            direccion: p.direccion,
+            activo: p.activo
+        }));
+    } catch (error) {
+        console.error('Error en obtenerProveedores:', error);
+        return [];
+    }
+}
+
+export async function crearProveedorAPI(nuevo) {
+    try {
+        const backendProv = {
+            nombre: nuevo.nombre,
+            contacto: nuevo.contacto,
+            telefono: nuevo.telefono,
+            email: nuevo.email,
+            direccion: nuevo.direccion,
+            activo: nuevo.activo
+        };
+        const response = await fetch('http://localhost:8080/api/proveedores', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(backendProv)
+        });
+        if (!response.ok) throw new Error('No se pudo guardar el proveedor');
+        const p = await response.json();
+        return {
+            id_proveedor: p.id,
+            nombre: p.nombre,
+            contacto: p.contacto,
+            telefono: p.telefono,
+            email: p.email,
+            direccion: p.direccion,
+            activo: p.activo
+        };
+    } catch (error) {
+        console.error('Error en crearProveedorAPI:', error);
+        return null;
+    }
+}
+
+export async function actualizarProveedorAPI(id, editado) {
+    try {
+        const backendProv = {
+            id: editado.id_proveedor,
+            nombre: editado.nombre,
+            contacto: editado.contacto,
+            telefono: editado.telefono,
+            email: editado.email,
+            direccion: editado.direccion,
+            activo: editado.activo
+        };
+        const response = await fetch(`http://localhost:8080/api/proveedores/${id}`, {
+            method: 'PUT',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(backendProv)
+        });
+        return response.ok;
+    } catch (error) {
+        console.error('Error en actualizarProveedorAPI:', error);
+        return false;
+    }
+}
+
+export async function eliminarProveedorAPI(id) {
+    try {
+        const response = await fetch(`http://localhost:8080/api/proveedores/${id}`, {
+            method: 'DELETE'
+        });
+        return response.ok;
+    } catch (error) {
+        console.error('Error en eliminarProveedorAPI:', error);
+        return false;
+    }
+}

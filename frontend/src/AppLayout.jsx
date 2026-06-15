@@ -2,8 +2,8 @@ import { useState } from "react";
 import Sidebar from "./components/navegacion/Sidebar";
 import Dashboard from "./components/dashboard/Dashboard";
 import GestorProductos from "./components/productos/GestorProductos";
-import Proveedores from "./components/Proveedores";
-import Categorias from "./components/Categorias";
+import GestorProveedores from "./components/proveedores/GestorProveedores";
+import GestorCategorias from "./components/categorias/GestorCategorias";
 import Reportes from "./components/Reportes";
 import "./AppLayout.css";
 
@@ -16,16 +16,12 @@ const AppLayout = () => {
         return <Dashboard />;
       case "inventario":
         return <GestorProductos />;
-
       case "proveedores":
-         return <Proveedores />;
-  
+        return <GestorProveedores />;
       case "categorias":
-        return <Categorias />;
-
+        return <GestorCategorias />;
       case "reportes":
         return <Reportes />;
-        
       default:
         return <Dashboard />;
     }
