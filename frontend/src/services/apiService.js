@@ -1,12 +1,13 @@
 const API_URL = 'http://localhost:8080/api/productos';
 const INVENTARIO_URL = 'http://localhost:8080/api/inventario';
 
-// GET - Cargar y formatear productos (uniendo con inventario)
+// GET - Cargar y formatear productos (uniendo con inventario y categorías)
 export async function obtenerProductos() {
     try {
-        const [respProd, respInv] = await Promise.all([
+        const [respProd, respInv, respRel] = await Promise.all([
             fetch(API_URL),
-            fetch(INVENTARIO_URL)
+            fetch(INVENTARIO_URL),
+            fetch('http://localhost:8080/api/producto-categoria')
         ]);
 
         if (!respProd.ok) throw new Error('Error al conectar con el API de productos');
@@ -14,12 +15,21 @@ export async function obtenerProductos() {
 
         const productosData = await respProd.json();
         const inventarioData = await respInv.json();
+        const relacionesData = respRel.ok ? await respRel.json() : [];
 
         const productosList = Array.isArray(productosData) ? productosData : (productosData.value || []);
         const inventarioList = Array.isArray(inventarioData) ? inventarioData : (inventarioData.value || []);
+        const relacionesList = Array.isArray(relacionesData) ? relacionesData : [];
 
         const productosMapeados = productosList.map(p => {
             const inv = inventarioList.find(item => item.productoId === p.id);
+            const misRelaciones = relacionesList.filter(rel => rel.productoId === p.id);
+            const categoriasAsociadas = misRelaciones.map(rel => ({
+                id_relacion: rel.id,
+                id_categoria: rel.categoriaId,
+                nombre: rel.categoriaNombre
+            }));
+
             return {
                 id_producto: p.id,
                 sku: p.sku,
@@ -35,7 +45,8 @@ export async function obtenerProductos() {
                     cantidad_actual: inv ? inv.cantidadActual : 0,
                     stock_minimo: inv ? inv.stockMinimo : 0,
                     stock_maximo: inv ? inv.stockMaximo : 0
-                }
+                },
+                categorias: categoriasAsociadas
             };
         });
 
@@ -334,6 +345,34 @@ export async function eliminarProveedorAPI(id) {
         return response.ok;
     } catch (error) {
         console.error('Error en eliminarProveedorAPI:', error);
+        return false;
+    }
+}
+
+// POST - Asociar un producto a una categoría
+export async function asociarProductoCategoriaAPI(productoId, categoriaId) {
+    try {
+        const response = await fetch('http://localhost:8080/api/producto-categoria', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ productoId, categoriaId })
+        });
+        return response.ok ? await response.json() : null;
+    } catch (error) {
+        console.error('Error en asociarProductoCategoriaAPI:', error);
+        return null;
+    }
+}
+
+// DELETE - Eliminar la relación de un producto con una categoría
+export async function desasociarProductoCategoriaAPI(relacionId) {
+    try {
+        const response = await fetch(`http://localhost:8080/api/producto-categoria/${relacionId}`, {
+            method: 'DELETE'
+        });
+        return response.ok;
+    } catch (error) {
+        console.error('Error en desasociarProductoCategoriaAPI:', error);
         return false;
     }
 }

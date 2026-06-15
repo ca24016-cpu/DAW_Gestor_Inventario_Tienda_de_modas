@@ -1,6 +1,6 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import "./FormularioProducto.css";
-import { crearProductoAPI } from "../../services/apiService";
+import { crearProductoAPI, obtenerCategorias, asociarProductoCategoriaAPI } from "../../services/apiService";
 
 
 const FormularioProducto = ({ onProductoAgregado }) => {
@@ -13,11 +13,21 @@ const FormularioProducto = ({ onProductoAgregado }) => {
     estado: "ACTIVO",
     cantidad_inicial: 20,
     stock_minimo: 10,
+    categoriaId: ""
   });
 
+  const [categorias, setCategorias] = useState([]);
   const [errores, setErrores] = useState({});
   const [enviado, setEnviado] = useState(false);
   const [cargando, setCargando] = useState(false);
+
+  useEffect(() => {
+    obtenerCategorias().then(data => {
+      setCategorias(data || []);
+    }).catch(error => {
+      console.error("Error al cargar categorías en FormularioProducto:", error);
+    });
+  }, []);
 
   const tallas = [
     { id: 10, nombre: "S", categoria: "INFANTIL" },
@@ -88,6 +98,20 @@ const FormularioProducto = ({ onProductoAgregado }) => {
 
       if (productoGuardado) {
         console.log("Producto agregado en BD:", productoGuardado);
+
+        // 2. Si se seleccionó una categoría, crear la relación
+        if (formData.categoriaId) {
+          const catId = parseInt(formData.categoriaId);
+          const asociacion = await asociarProductoCategoriaAPI(productoGuardado.id_producto, catId);
+          if (asociacion) {
+            const catAsignada = categorias.find(c => c.id_categoria === catId);
+            productoGuardado.categorias = [{
+              id_relacion: asociacion.id,
+              id_categoria: catId,
+              nombre: catAsignada ? catAsignada.nombre : "Categoría"
+            }];
+          }
+        }
         
         // Mostrar confirmación visual de Andrea
         setEnviado(true);
@@ -108,6 +132,7 @@ const FormularioProducto = ({ onProductoAgregado }) => {
           estado: "ACTIVO",
           cantidad_inicial: 20,
           stock_minimo: 10,
+          categoriaId: ""
         });
         setErrores({});
       } else {
@@ -228,6 +253,34 @@ const FormularioProducto = ({ onProductoAgregado }) => {
 
           <div className="form-row">
             <div className="form-grupo">
+              <label htmlFor="categoriaId">Categoría</label>
+              <select
+                id="categoriaId"
+                name="categoriaId"
+                value={formData.categoriaId}
+                onChange={handleChange}
+              >
+                <option value="">-- Seleccione una Categoría --</option>
+                {categorias
+                  .filter((c) => !c.id_categoria_padre) // Categorías principales (Padres)
+                  .map((padre) => (
+                    <optgroup key={padre.id_categoria} label={padre.nombre}>
+                      <option value={padre.id_categoria}>
+                        {padre.nombre} (Principal)
+                      </option>
+                      {categorias
+                        .filter((c) => c.id_categoria_padre === padre.id_categoria) // Subcategorías (Hijos)
+                        .map((hijo) => (
+                          <option key={hijo.id_categoria} value={hijo.id_categoria}>
+                            └─ {hijo.nombre}
+                          </option>
+                        ))}
+                    </optgroup>
+                  ))}
+              </select>
+            </div>
+
+            <div className="form-grupo">
               <label htmlFor="estado">Estado del Producto</label>
               <select
                 id="estado"
@@ -315,6 +368,12 @@ const FormularioProducto = ({ onProductoAgregado }) => {
               <span className="label">Talla:</span>
               <span className="valor">
                 {tallas.find((t) => t.id === parseInt(formData.tallaId))?.nombre}
+              </span>
+            </div>
+            <div className="preview-info">
+              <span className="label">Categoría:</span>
+              <span className="valor">
+                {categorias.find((c) => c.id_categoria === parseInt(formData.categoriaId))?.nombre || "Ninguna"}
               </span>
             </div>
             <div className="preview-info">

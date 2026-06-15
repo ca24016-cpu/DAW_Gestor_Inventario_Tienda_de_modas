@@ -4,7 +4,9 @@ import {
   obtenerProductos, 
   eliminarProductoAPI, 
   actualizarProductoAPI, 
-  obtenerCategorias 
+  obtenerCategorias,
+  asociarProductoCategoriaAPI,
+  desasociarProductoCategoriaAPI
 } from "../../services/apiService";
 
 const ProductoLista = () => {
@@ -114,15 +116,53 @@ const ProductoLista = () => {
   };
 
   const editarProducto = (producto) => {
-    setProductoEditando({ ...producto });
+    setProductoEditando({ 
+      ...producto,
+      categoriaId: producto.categorias?.[0]?.id_categoria || ""
+    });
     setMostrarModal(true);
   };
 
   const guardarCambios = async () => {
     const actualizado = await actualizarProductoAPI(productoEditando.id_producto, productoEditando);
     if (actualizado) {
+      const original = productos.find(p => p.id_producto === productoEditando.id_producto);
+      const originalCat = original?.categorias?.[0];
+      const nuevaCatId = productoEditando.categoriaId ? parseInt(productoEditando.categoriaId) : "";
+      
+      let categoriasActualizadas = [...(original?.categorias || [])];
+
+      // Verificamos si la categoría cambió
+      if (nuevaCatId !== (originalCat?.id_categoria || "")) {
+        // Desasociar anterior si existía
+        if (originalCat?.id_relacion) {
+          await desasociarProductoCategoriaAPI(originalCat.id_relacion);
+          categoriasActualizadas = [];
+        }
+
+        // Asociar nueva si se seleccionó una
+        if (nuevaCatId) {
+          const asociacion = await asociarProductoCategoriaAPI(productoEditando.id_producto, nuevaCatId);
+          if (asociacion) {
+            const catAsignada = categorias.find(c => c.id_categoria === nuevaCatId);
+            categoriasActualizadas = [{
+              id_relacion: asociacion.id,
+              id_categoria: nuevaCatId,
+              nombre: catAsignada ? catAsignada.nombre : "Categoría"
+            }];
+          }
+        } else {
+          categoriasActualizadas = [];
+        }
+      }
+
+      const productoConCategorias = {
+        ...productoEditando,
+        categorias: categoriasActualizadas
+      };
+
       setProductos((prev) =>
-        prev.map((p) => (p.id_producto === productoEditando.id_producto ? productoEditando : p))
+        prev.map((p) => (p.id_producto === productoEditando.id_producto ? productoConCategorias : p))
       );
       setMostrarModal(false);
     } else {
@@ -403,6 +443,39 @@ const ProductoLista = () => {
                   </select>
                 </div>
 
+                <div className="modal-grupo">
+                  <label>Categoría</label>
+                  <select
+                    value={productoEditando.categoriaId || ""}
+                    onChange={(e) =>
+                      setProductoEditando({
+                        ...productoEditando,
+                        categoriaId: e.target.value,
+                      })
+                    }
+                  >
+                    <option value="">-- Ninguna --</option>
+                    {categorias
+                      .filter((c) => !c.id_categoria_padre) // Categorías principales (Padres)
+                      .map((padre) => (
+                        <optgroup key={padre.id_categoria} label={padre.nombre}>
+                          <option value={padre.id_categoria}>
+                            {padre.nombre} (Principal)
+                          </option>
+                          {categorias
+                            .filter((c) => c.id_categoria_padre === padre.id_categoria) // Subcategorías (Hijos)
+                            .map((hijo) => (
+                              <option key={hijo.id_categoria} value={hijo.id_categoria}>
+                                └─ {hijo.nombre}
+                              </option>
+                            ))}
+                        </optgroup>
+                      ))}
+                  </select>
+                </div>
+              </div>
+
+              <div className="form-row">
                 <div className="modal-grupo">
                   <label>Estado</label>
                   <select
