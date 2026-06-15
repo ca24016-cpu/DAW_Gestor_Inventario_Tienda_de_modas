@@ -29,3 +29,4 @@ pom.xml.backup
 *.db
 *.sqlite
 *.sqlite3
+node_modules
