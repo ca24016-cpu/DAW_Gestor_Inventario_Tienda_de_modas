@@ -294,6 +294,11 @@
     width: 100%;
   }
 
+  .form-row {
+    grid-template-columns: 1fr;
+    gap: 10px;
+  }
+
   .tabla-productos {
     font-size: 0.85rem;
   }

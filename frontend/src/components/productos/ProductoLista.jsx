@@ -265,10 +265,10 @@ const ProductoLista = () => {
           <table className="tabla-productos">
             <thead>
               <tr>
-                <th>SKU</th>
+                <th className="ocultar-movil">SKU</th>
                 <th>Nombre</th>
-                <th>Categorías</th>
-                <th>Talla</th>
+                <th className="ocultar-movil">Categorías</th>
+                <th className="ocultar-movil">Talla</th>
                 <th>Precio</th>
                 <th>Stock</th>
                 <th>Estado</th>
@@ -278,7 +278,7 @@ const ProductoLista = () => {
             <tbody>
               {productosFiltrados.map((producto) => (
                 <tr key={producto.id_producto} className="tabla-fila">
-                  <td data-label="SKU" className="sku">
+                  <td data-label="SKU" className="sku ocultar-movil">
                     <code>{producto.sku}</code>
                   </td>
                   <td data-label="Nombre">
@@ -289,7 +289,7 @@ const ProductoLista = () => {
                       </span>
                     </div>
                   </td>
-                  <td data-label="Categorías">
+                  <td data-label="Categorías" className="ocultar-movil">
                     <div className="producto-categorias-tags">
                       {producto.categorias && producto.categorias.length > 0 ? (
                         producto.categorias.map((c) => (
@@ -302,7 +302,7 @@ const ProductoLista = () => {
                       )}
                     </div>
                   </td>
-                  <td data-label="Talla">
+                  <td data-label="Talla" className="ocultar-movil">
                     <span className="badge-talla">{producto.talla.nombre}</span>
                   </td>
                   <td data-label="Precio" className="precio">

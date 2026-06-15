@@ -131,24 +131,24 @@ const ProveedorLista = ({ proveedores, loading, onEditar, onEliminar }) => {
           <table className="tabla-proveedores">
             <thead>
               <tr>
-                <th>ID</th>
+                <th className="ocultar-movil">ID</th>
                 <th>Proveedor</th>
-                <th>Contacto</th>
+                <th className="ocultar-movil">Contacto</th>
                 <th>Teléfono</th>
-                <th>Estado</th>
+                <th className="ocultar-movil">Estado</th>
                 <th className="th-acciones">Acciones</th>
               </tr>
             </thead>
             <tbody>
               {proveedoresFiltrados.map((prov) => (
                 <tr key={prov.id_proveedor} className="tabla-fila">
-                  <td data-label="ID" className="id-col">
+                  <td data-label="ID" className="id-col ocultar-movil">
                     <code>#{prov.id_proveedor}</code>
                   </td>
                   <td data-label="Proveedor">
                     <strong className="proveedor-nombre">{prov.nombre}</strong>
                   </td>
-                  <td data-label="Contacto">
+                  <td data-label="Contacto" className="ocultar-movil">
                     <span className="proveedor-contacto-nombre">
                       {prov.contacto || "N/A"}
                     </span>
@@ -156,7 +156,7 @@ const ProveedorLista = ({ proveedores, loading, onEditar, onEliminar }) => {
                   <td data-label="Teléfono" className="tel-col">
                     <span>{prov.telefono || "N/A"}</span>
                   </td>
-                  <td data-label="Estado">
+                  <td data-label="Estado" className="ocultar-movil">
                     <span
                       className={`badge-estado ${
                         prov.activo ? "activo" : "inactivo"

@@ -112,9 +112,9 @@ const CategoriaLista = ({ categorias, loading, onEditar, onEliminar }) => {
           <table className="tabla-categorias">
             <thead>
               <tr>
-                <th>ID</th>
+                <th className="ocultar-movil">ID</th>
                 <th>Nombre</th>
-                <th>Descripción</th>
+                <th className="ocultar-movil">Descripción</th>
                 <th>Categoría Padre</th>
                 <th>Estado</th>
                 <th className="th-acciones">Acciones</th>
@@ -123,13 +123,13 @@ const CategoriaLista = ({ categorias, loading, onEditar, onEliminar }) => {
             <tbody>
               {categoriasFiltradas.map((cat) => (
                 <tr key={cat.id_categoria} className="tabla-fila">
-                  <td data-label="ID" className="id-col">
+                  <td data-label="ID" className="id-col ocultar-movil">
                     <code>#{cat.id_categoria}</code>
                   </td>
                   <td data-label="Nombre">
                     <strong className="categoria-nombre">{cat.nombre}</strong>
                   </td>
-                  <td data-label="Descripción">
+                  <td data-label="Descripción" className="ocultar-movil">
                     <span className="categoria-desc">
                       {cat.descripcion || "Sin descripción"}
                     </span>

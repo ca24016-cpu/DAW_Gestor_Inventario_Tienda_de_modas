@@ -199,3 +199,10 @@ input, select, textarea {
     border-right-color: var(--border);
   }
 }
+
+/* Responsive Helpers - Ocultar en móvil y tablet */
+@media (max-width: 768px) {
+  .ocultar-movil {
+    display: none !important;
+  }
+}
