@@ -2,7 +2,7 @@ import { useState } from "react";
 import "./Sidebar.css";
 
 const Sidebar = ({ seccionActiva, onCambioSeccion }) => {
-  const [menuAbierto, setMenuAbierto] = useState(true);
+  const [menuAbierto, setMenuAbierto] = useState(window.innerWidth > 768);
 
   const opciones = [
     { id: "dashboard", label: "Dashboard", subtitulo: "Inicio", icon: "🏠" },
