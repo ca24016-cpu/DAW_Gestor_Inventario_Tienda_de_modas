@@ -229,12 +229,14 @@ const CategoriaLista = ({ categorias, loading, onEditar, onEliminar }) => {
                     })
                   }
                 >
-                  <option value="">Ninguna (Principal)</option>
+                  <option value="">
+                    Ninguna (Principal) {!categoriaEditando.id_categoria_padre ? " (Actual)" : ""}
+                  </option>
                   {categorias
                     .filter((c) => c.id_categoria !== categoriaEditando.id_categoria) // No ser padre de sí misma
                     .map((c) => (
                       <option key={c.id_categoria} value={c.id_categoria}>
-                        {c.nombre}
+                        {c.nombre} {c.id_categoria === categoriaEditando.id_categoria_padre ? " (Actual)" : ""}
                       </option>
                     ))}
                 </select>

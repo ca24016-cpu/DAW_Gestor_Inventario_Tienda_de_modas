@@ -262,7 +262,13 @@
   font-size: 0.95rem;
   width: 100%;
   background: #fff;
+  color: #333;
   transition: border-color 0.2s;
+}
+
+.modal-grupo select option {
+  background: #fff;
+  color: #333;
 }
 
 .modal-grupo input:focus,
