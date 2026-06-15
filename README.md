@@ -35,10 +35,11 @@ Opcional:
 
 
 ## Tecnologías Utilizadas
-- **Lenguaje:** Java (Spring Boot, JPA/Hibernate)  
+- **Backend:** Java (Spring Boot, JPA/Hibernate)  
+- **Frontend:** React + Vite, Javascript, CSS Vanilla  
 - **Base de Datos:** PostgreSQL + pgAdmin  
 - **Documentación:** Swagger/OpenAPI   
-- **Control de versiones:** GitHub
+- **Control de versiones:** Git & GitHub
 
 # 💻 Guía de Inicialización del Proyecto
 
@@ -53,7 +54,7 @@ El proyecto está dividido en dos módulos principales:
 
 La interfaz de usuario está construida con React y utiliza **pnpm** para una gestión de dependencias rápida y eficiente.
 
-Actualmente, los datos presentados son simulados (*Mock Data*) para validar las operaciones CRUD y el diseño responsivo.
+El frontend está completamente integrado con la API REST del backend en Spring Boot y la base de datos PostgreSQL, realizando operaciones reales en tiempo real sin almacenamiento o datos de prueba simulados.
 
 ## 📋 Requisitos Previos
 
@@ -175,23 +176,34 @@ http://localhost:8080/swagger-ui/index.html
 
 ---
 
-# 📌 Operaciones CRUD Simuladas
+# 📌 Estado del Proyecto e Integración Completa
 
-Para propósitos de validación de interfaz, el sistema permite simular operaciones CRUD sin depender de persistencia real en el backend.
+El proyecto ha completado exitosamente su etapa de desarrollo, pruebas e integración de extremo a extremo (End-to-End). Se han eliminado todos los archivos y referencias de datos simulados (*Mock Data*), logrando que todos los módulos realicen consultas y operaciones directas sobre el servidor Spring Boot y la base de datos PostgreSQL.
 
-## ✅ GET
-Renderizado dinámico de productos en:
+## 📊 Matriz de Estado de Módulos
 
-- Tarjetas *(Mobile)*
-- Tablas *(Desktop)*
+| Módulo | Características Principales | Estado | Base de Datos |
+| :--- | :--- | :--- | :--- |
+| **🏠 Dashboard** | Resumen cuantitativo de existencias, productos críticos con stock bajo y gráfica dinámica de distribución de inventario por categoría. | **Completado** | PostgreSQL (Real-time) |
+| **📦 Inventario** | Listado interactivo, búsqueda por Nombre/SKU, filtros avanzados por categoría (padre/hijo), creación/edición de productos con selección jerárquica y validación con feedback visual. | **Completado** | PostgreSQL (Real-time) |
+| **🏷️ Categorías** | Gestión de jerarquías (categorías padre y subcategorías hija), control de productos asociados e integración con el catálogo. | **Completado** | PostgreSQL (Real-time) |
+| **🤝 Proveedores** | Listado de contactos, formularios de registro/edición con feedback visual de escritura, y botones interactivos de un clic para copiar correo y celular. | **Completado** | PostgreSQL (Real-time) |
+| **📈 Reportes** | Panel detallado de rendimiento de inventario y alertas visuales automáticas para productos con necesidad de reabastecimiento. | **Completado** | PostgreSQL (Real-time) |
 
-## ➕ POST
-Inserción de nuevos productos mediante el formulario de **Agregar Producto**.
+---
 
-## ✏️ PUT
-Edición de información de registros existentes.
+## 🛠️ Detalles de Integración y Funcionalidad
 
-## ❌ DELETE
-Eliminación de productos previa confirmación mediante un modal de seguridad.
+### ✅ Operaciones CRUD Reales (PostgreSQL)
+* **Visualización (GET):** Carga dinámica de tablas y paneles estadísticos. Los filtros jerárquicos de categorías y búsquedas de texto plano se resuelven en tiempo real contra los registros de la base de datos.
+* **Creación (POST):** Validación interactiva de campos de texto y numéricos. Permite la asociación en base de datos de productos a sus respectivas categorías padres/hijas.
+* **Edición (PUT):** Actualización inmediata de registros (proveedores, productos y categorías) reflejándose inmediatamente en toda la SPA.
+* **Eliminación (DELETE):** Eliminación transaccional con alertas y confirmaciones modales, validando la integridad referencial y las dependencias de tablas (ej. inventario y relaciones producto-categoría).
+
+### 📱 Diseño Mobile-First & Ajustes de Usabilidad
+* **Menú Lateral Adaptativo:** Oculto por defecto en pantallas de celulares y tabletas (`<= 768px`) para aprovechar al máximo el espacio de la interfaz. Su apertura se realiza a través de un botón flotante hamburguesa, optimizado y más compacto.
+* **Ocultamiento de Columnas Secundarias:** En pantallas móviles, las tablas ocultan de manera automática campos secundarios (como ID, SKU o descripciones extensas). La información completa se puede consultar de forma clara y formateada en el **Modal de Detalles** (`👁️`).
+* **Formularios Responsivos:** Los formularios se apilan verticalmente de forma automática en pantallas pequeñas para optimizar el teclado digital y el uso táctil.
+* **Feedback de Escritura (Modo Oscuro):** Se mejoraron las hojas de estilo (`CSS`) de todos los formularios para asegurar la perfecta visibilidad del texto ingresado por el usuario, evitando textos invisibles por temas oscuros del navegador.
 
 
