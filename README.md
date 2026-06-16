@@ -1,6 +1,8 @@
-# DAW_Gestor_Inventario_Tienda_de_modas
+# FASHIONTRACK: Gestor de inventario para tiendas de modas 
 Implementacion de un sistema de gestion de inventario (Producto de venta) orientado hacia empresas o emprendimientos en el rubro de la moda 
 
+Elaborado en el marco de la materia Desarrollo dw aplicaciones web por el equpo 4 de la carrera de ingenieria en desarrollo de software
+Universiodad de El Salvador
 ## Integrantes:
 
 - Andrea Isabel Chávez Mejía CM24080
@@ -188,13 +190,6 @@ http://localhost:8080/swagger-ui/index.html
 
 ![Swagger General](./media/Swagger-General.png)
 
-#### Detalle de Endpoint - Obtener Producto
-
-![Swagger Detalle GET](./media/swagger-GET-Detalle.png)
-
-#### Estructura de Datos - Crear Producto
-
-![Swagger Detalle POST](./media/swagger-POST-Detalle.png)
 
 
 ## 📋 Tabla de Endpoints - API REST
